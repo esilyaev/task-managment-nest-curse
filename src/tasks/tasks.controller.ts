@@ -1,8 +1,7 @@
-import { Body, Controller, Get, HttpCode, Patch, Post, Query } from '@nestjs/common';
-import { Delete } from '@nestjs/common/decorators/http/request-mapping.decorator';
-import { Param } from '@nestjs/common/decorators/http/route-params.decorator';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetFilterTaskDto } from './dto/get-filter-task.dto';
+import { IdTaskParams } from './dto/id-task.params';
 import { TaskStatus } from './tasks.model';
 import { TasksService } from './tasks.service';
 
@@ -28,17 +27,17 @@ export class TasksController {
   }
 
   @Get('/:id')
-  show(@Param('id') id: string) {
-    return this.tasksService.findById(id);
+  show(@Param() params: IdTaskParams) {
+    return this.tasksService.findById(params.id);
   }
 
   @Delete('/:id')
-  destroy(@Param('id') id: string) {
-    return this.tasksService.delete(id);
+  destroy(@Param() params: IdTaskParams) {
+    return this.tasksService.delete(params.id);
   }
 
   @Patch('/:id')
-  update(@Param('id') id: string, @Body('status') status: TaskStatus) {
-    return this.tasksService.update(id, status);
+  update(@Param() params: IdTaskParams, @Body('status') status: TaskStatus) {
+    return this.tasksService.update(params.id, status);
   }
 }
