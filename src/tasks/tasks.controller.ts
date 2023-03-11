@@ -12,13 +12,13 @@ export class TasksController {
    */
   constructor(private readonly tasksService: TasksService) {}
 
-  // @Get()
-  // index(@Query() filterDto: GetFilterTaskDto) {
-  //   // if (Object.keys(filterDto).length) {
-  //   //   return this.tasksService.getAllWithFilters(filterDto);
-  //   // }
-  //   return this.tasksService.getAll(filterDto);
-  // }
+  @Get()
+  index(@Query() filterDto: GetFilterTaskDto) {
+    // if (Object.keys(filterDto).length) {
+    //   return this.tasksService.getAllWithFilters(filterDto);
+    // }
+    return this.tasksService.getAll(filterDto);
+  }
 
   @Post()
   @HttpCode(201)
@@ -31,13 +31,13 @@ export class TasksController {
     return this.tasksService.findById(params.id);
   }
 
-  // @Delete('/:id')
-  // destroy(@Param() params: IdTaskParams) {
-  //   return this.tasksService.delete(params.id);
-  // }
+  @Delete('/:id')
+  destroy(@Param() params: IdTaskParams) {
+    return this.tasksService.delete(params.id);
+  }
 
-  // @Patch('/:id')
-  // update(@Param() params: IdTaskParams, @Body() updateDto: UpdateTaskDto) {
-  //   return this.tasksService.update(params.id, updateDto.status);
-  // }
+  @Patch('/:id')
+  update(@Param() params: IdTaskParams, @Body() updateDto: UpdateTaskDto) {
+    return this.tasksService.update(params.id, updateDto.status);
+  }
 }
