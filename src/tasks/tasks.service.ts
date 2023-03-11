@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetFilterTaskDto } from './dto/get-filter-task.dto';
 import { TaskStatus } from './tasks-status.enum';
@@ -56,8 +56,9 @@ export class TasksService {
     }
 
     if (search) {
-      query.andWhere('task.title LIKE :search OR task.description LIKE :search', {
-        search: `%${search}%`,
+      const lowerSearch = search.toLowerCase();
+      query.andWhere('LOWER(task.title) LIKE :search OR LOWER(task.description) LIKE :search', {
+        search: `%${lowerSearch}%`,
       });
     }
 
