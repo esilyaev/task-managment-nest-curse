@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Patch, Post, Query } from '@nestjs/common';
 import { Delete } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { Param } from '@nestjs/common/decorators/http/route-params.decorator';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -22,6 +22,7 @@ export class TasksController {
   }
 
   @Post()
+  @HttpCode(201)
   store(@Body() dto: CreateTaskDto) {
     return this.tasksService.create(dto);
   }
