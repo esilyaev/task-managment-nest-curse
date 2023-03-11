@@ -1,14 +1,59 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { GetFilterTaskDto } from './dto/get-filter-task.dto';
 import { Task, TaskStatus } from './tasks.model';
 
 @Injectable()
 export class TasksService {
   private tasks: Task[] = [];
 
-  getAll() {
-    return this.tasks;
+  getAll(filterDto: GetFilterTaskDto = {}) {
+    let filteredTasks = this.tasks;
+
+    const { status, search } = filterDto;
+
+    if (status) {
+      filteredTasks = filteredTasks.filter((t) => {
+        return t.status === status;
+      });
+    }
+
+    if (search) {
+      const preparedSearch = search.toLowerCase();
+      filteredTasks = filteredTasks.filter((t) => {
+        return (
+          t.description.toLowerCase().includes(preparedSearch) ||
+          t.title.toLowerCase().includes(preparedSearch)
+        );
+      });
+    }
+
+    return filteredTasks;
+  }
+
+  getAllWithFilters(filterDto: GetFilterTaskDto) {
+    const { status, search } = filterDto;
+
+    let filteredTasks = this.tasks;
+
+    if (status) {
+      filteredTasks = filteredTasks.filter((t) => {
+        return t.status === status;
+      });
+    }
+
+    if (search) {
+      const preparedSearch = search.toLowerCase();
+      filteredTasks = filteredTasks.filter((t) => {
+        return (
+          t.description.toLowerCase().includes(preparedSearch) ||
+          t.title.toLowerCase().includes(preparedSearch)
+        );
+      });
+    }
+
+    return filteredTasks;
   }
 
   create(dto: CreateTaskDto) {
