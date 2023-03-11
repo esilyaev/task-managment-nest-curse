@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: "task-db"
+      POSTGRES_USER: "task-user"
+      POSTGRES_PASSWORD: "task-password"
+    ports:
+      - "5432:5432"
+    volumes:
+      - task-db:/var/lib/postgresql/data
+
+volumes:
+  task-db:
